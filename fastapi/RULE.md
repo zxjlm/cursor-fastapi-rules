@@ -2,7 +2,7 @@
 description: FastAPI best practices and patterns for building modern Python web APIs
 globs: **/*.py, app/**/*.py, api/**/*.py
 ---
-# Python FastAPI Development Standards
+# Document 1: Enhanced FastAPI Development Standards
 
 ## 1. Project Structure Standards
 
@@ -86,12 +86,17 @@ def calculate_user_score(
 - Implement robust error handling mechanisms
 - Use FastAPI's exception handling middleware to handle exceptions uniformly
 - Provide meaningful error messages and status codes for all exceptions
+- Use HTTPException for expected errors and model them as specific HTTP responses
+- Use middleware for handling unexpected errors, logging, and error monitoring
+- Implement proper error logging and user-friendly error messages
+- Use custom error types or error factories for consistent error handling
 
 ### 3.2 Logging
 
 - Use the loguru module
 - Log critical operations, errors, and debug information
 - Include sufficient context information (such as user ID, request ID, timestamp, etc.)
+- Use middleware for logging, error monitoring, and performance optimization
 
 ## 4. Dependency Management
 
@@ -149,25 +154,48 @@ def calculate_user_score(
 - Use APIRouter to organize related routes
 - Group routes by functional modules
 - Use route prefixes and tags to organize APIs
+- Use declarative route definitions with clear return type annotations
+- Structure routes and dependencies clearly to optimize readability and maintainability
 
 ### 8.2 Dependency Injection
 
 - Leverage FastAPI's dependency injection system
 - Inject database connections, authentication, etc. as dependencies
 - Use dependencies to share common logic
+- Rely on FastAPI's dependency injection system for managing state and shared resources
 
 ### 8.3 Data Validation
 
 - Use Pydantic models for request and response validation
 - Define clear input and output models
 - Leverage Pydantic's validation features to ensure data integrity
+- Use Pydantic's BaseModel for consistent input/output validation and response schemas
+- Use functional components (plain functions) and Pydantic models for input validation and response schemas
 
 ### 8.4 Asynchronous Programming
 
 - Prioritize using asynchronous functions for I/O operations
 - Use `async`/`await` syntax
 - Avoid using blocking operations in asynchronous contexts
+- Use def for synchronous operations and async def for asynchronous ones
+- Minimize blocking I/O operations; use asynchronous operations for all database calls and external API requests
+- Limit blocking operations in routes:
+  - Favor asynchronous and non-blocking flows
+  - Use dedicated async functions for database and external API operations
 
 ### 8.5 Database and ORM
 
 - Prioritize using SQLModel for ORM work, supplemented with SQLAlchemy for additional functionality
+
+### 8.6 Lifecycle Management
+
+- Minimize @app.on_event("startup") and @app.on_event("shutdown")
+- Prefer lifespan context managers for managing startup and shutdown events
+
+### 8.7 Performance Optimization
+
+- Optimize for performance using async functions for I/O-bound tasks, caching strategies, and lazy loading
+- Implement caching for static and frequently accessed data using tools like Redis or in-memory stores
+- Optimize data serialization and deserialization with Pydantic
+- Use lazy loading techniques for large datasets and substantial API responses
+- Prioritize API performance metrics (response time, latency, throughput)
