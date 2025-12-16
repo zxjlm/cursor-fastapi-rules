@@ -1,3 +1,7 @@
+---
+description: FastAPI best practices and patterns for building modern Python web APIs
+globs: **/*.py, app/**/*.py, api/**/*.py
+---
 ## FastAPI Best Practices
 Opinionated list of best practices and conventions I use in startups.
 
